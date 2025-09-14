@@ -15,11 +15,9 @@
 	"x86_64-linux"
       ];
   in {
+    lib = import ./lib { inputs = self.inputs; };
     packages = forAllSystems (system: {
-      default = nixpkgs.legacyPackages.${system}.vimUtils.buildVimPlugin {
-        name = "vimsical";
-	src = ./config;
-      };
+      default = self.lib.mkVimPlugin { inherit system; };
     });
 
     devShells = forAllSystems (system: {
